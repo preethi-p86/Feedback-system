@@ -1,0 +1,119 @@
+TO RUN:
+
+FEEDBACK-NEW/backend -> node server.js (starts backend)
+FEEDBACK-NEW -> npm start
+
+
+------------------------------
+
+GIT commands to do in vs code:
+
+1. VS CODE -> GITHUB WEB
+
+check status : git status
+
+git add tt3.txt          #goes to staging
+git commit -m "Created a new file called tt3.txt"    #commits to git
+git push origin main     #goes to web github too
+
+# if we make any changes to the same file, follow the same 3 commands.
+# if you delete the file, do the same 3 commands after deletion.
+
+---------------------------
+
+2. GITHUB WEB -> VS CODE
+
+I changed in github, i want the same change to reflect in vs code
+
+git pull
+
+----------------------------
+
+<<<<<<>>>>>------------------<<<<<<>>>>>>
+
+3. CREATE A FILE IN VS CODE -> PUT IN GITHUB
+
+---- git init -> creates an init  file in vs code
+
+if required, there are warnings, create a .gitignore file in vs code by 
+just clicking create new file on left side bar.
+
+
+
+git status (U)
+
+git add file_name (lets you put every file name instead lets add all the files altogether)
+
+---- git add . (all files will be added  simultaneously)
+
+git status ( green color)
+
+---- git commit -m "commit message"
+
+create a repository in github named this -such that you can push files to that
+specific repository. take the link of that repository by clicking "Code"
+
+then come to vs code and connect that repository here.
+
+---- git remote add origin https://github.com/preethi-p86/feedback_website.git
+
+now use command,
+
+---- git branch
+
+it will show * master (master and main are same only)
+
+rename master to main
+
+---- git branch -M main
+
+now check git branch command again,
+
+git branch
+
+it will show * main now.
+
+now it can easily get pushed, use the command
+
+---- git push origin main
+
+---------
+
+if you gave a wrong link earlier, and now you'd like to change it, then use this command
+
+---- git remote set-url origin https://github.com/preethi-p86/Feedback-new.git (corrected link)
+
+then check whether it's changed or not, using
+
+---- git remote -v
+
+then, 
+
+---- git push origin main
+
+
+----------------------------------
+
+New branch creating
+
+---- git branch -a (shows all the branches)
+
+let us create a new branch in git, but it won't be showed in local system 
+unless we run this command
+
+---- git pull
+
+---- git branch -a (the branch you are in shows in green colour)
+
+to move to another branch,
+
+---- git checkout branch_name
+
+you can do the same process and add the new updated files to this branch.
+
+to check the difference between both the files, we use
+
+---- git diff branch_name (eg: if u are in main branch, use command, git diff 2nd_branch)
+
+
+
