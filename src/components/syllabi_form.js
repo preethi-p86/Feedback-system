@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Container, Form, Table, Button, Alert } from 'react-bootstrap';
+import './SyllabiForm.css'; 
 
 function SyllabiForm() {
   const [displayform, setDisplay] = useState(true);
   const [recommendations, setRecommendations] = useState('');
   const [error_msg, setErrorMsg] = useState('');
   const [responses, setResponses] = useState({});
+  const [darkMode, setDarkMode] = useState(false);
 
   const questions = {
     q1: "The syllabus clearly explains the key technical concepts required.",
@@ -36,6 +38,12 @@ function SyllabiForm() {
 
   const validateForm = () => {
     if (Object.keys(responses).length < Object.keys(questions).length) return false;
+    for (const q of Object.keys(questions)) {
+      if (!responses[q] || Object.keys(responses[q]).length < setNames.length) {
+        return false;
+      }
+    }
+    if (!recommendations.trim()) return false;
     return true;
   };
 
@@ -51,165 +59,126 @@ function SyllabiForm() {
       existingEntries.push(newEntry);
       localStorage.setItem("syllabusFeedback", JSON.stringify(existingEntries));
       setDisplay(false);
+      setErrorMsg('');
     } else {
       setErrorMsg('Please fill all required fields before submitting.');
     }
   };
 
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }, [darkMode]);
+
   return (
-    <div style={{
-      background: `linear-gradient(to right, #e3f2fd, #ede7f6)`,
-      minHeight: '100vh',
-      paddingTop: '2rem',
-      paddingBottom: '2rem',
-      position: 'relative'
-    }}>
-      <div style={{
-        position: 'absolute',
-        top: 0, bottom: 0, right: 0, left: 0,
-        backgroundColor: 'rgba(253, 252, 252, 0.25)',
-        zIndex: 1
-      }} />
-      <Container className="py-5">
-        {displayform ? (
-          <Card className="p-4 shadow-lg" style={{ position: 'relative', zIndex: 2 }}>
-            <Card.Title className="mb-4">Syllabus Feedback Form</Card.Title>
-            <hr />
+    <>
+      <div className="theme-toggle-container">
+        <label htmlFor="theme-toggle">Dark Mode</label>
+        <input
+          type="checkbox"
+          id="theme-toggle"
+          className="theme-toggle-btn"
+          checked={darkMode}
+          onChange={e => setDarkMode(e.target.checked)}
+          aria-label="Toggle dark mode"
+        />
+      </div>
 
-            <div style={{ maxHeight: '500px', overflowX: 'auto', overflowY: 'scroll' }}>
-              <Table bordered className="sticky-header" style={{ minWidth: '1200px' }}>
-                <thead>
-                  <tr>
-                    <th
-                      rowSpan="2"
-                      style={{
-                        position: 'sticky',
-                        left: 0,
-                        top: 0,
-                        backgroundColor: '#fff',
-                        zIndex: 4,
-                        verticalAlign: 'middle',
-                        minWidth: '250px'
-                      }}
-                    >
-                      Question
-                    </th>
-                    {setNames.map((setName, idx) => (
-                      <th
-                        key={idx}
-                        colSpan={5}
-                        className="text-center"
-                        style={{
-                          position: 'sticky',
-                          top: 0,
-                          backgroundColor: '#fff',
-                          zIndex: 3,
-                          borderRight: '2px solid #000'
-                        }}
-                      >
-                        {setName}
-                      </th>
-                    ))}
-                  </tr>
-                  <tr>
-                    {setNames.flatMap((_, groupIdx) =>
-                      [5, 4, 3, 2, 1].map((score, idx) => {
-                        const isLastInGroup = idx === 4;
-                        return (
-                          <th
-                            key={`${groupIdx}-${score}`}
-                            className="text-center"
-                            style={{
-                              position: 'sticky',
-                              top: 35,
-                              backgroundColor: '#fff',
-                              zIndex: 2,
-                              borderRight: isLastInGroup ? '2px solid #000' : undefined
-                            }}
-                          >
-                            {score}
-                          </th>
-                        );
-                      })
-                    )}
-                  </tr>
-                </thead>
-                <tbody>
-                  {Object.entries(questions).map(([qKey, question], qIdx) => (
-                    <tr key={qKey}>
-                      <td style={{
-                        position: 'sticky',
-                        left: 0,
-                        backgroundColor: '#fff',
-                        zIndex: 1,
-                        minWidth: '250px',
-                        whiteSpace: 'normal'
-                      }}>
-                        {qIdx + 1}. {question}<span className='text-danger'> *</span>
-                      </td>
-                      {setNames.flatMap((setName, setIdx) =>
-                        [5, 4, 3, 2, 1].map((score, idx) => {
-                          const isLastInGroup = idx === 4;
-                          const fieldId = `${qKey}-${setName}-score${score}`;
-                          return (
-                            <td
-                              key={fieldId}
-                              className="text-center"
-                              style={{
-                                borderRight: isLastInGroup ? '2px solid #000' : undefined
-                              }}
-                            >
-                              <Form.Check
-                                type="radio"
-                                name={`${qKey}-${setName}`}
-                                value={score}
-                                checked={responses[qKey]?.[setName] === String(score)}
-                                onChange={e => handleResponseChange(qKey, setIdx, e.target.value)}
-                                id={fieldId}
-                              />
-                            </td>
-                          );
-                        })
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+      <div className="syllabi-form-page">
+        <div className="syllabi-form-card">
+          {displayform ? (
+            <>
+              <h2 className="card-title">Syllabus Feedback Form</h2>
+              <form onSubmit={formSubmit}>
+                <div className="table-wrapper">
+                  <Table bordered className="syllabi-form-table" style={{ minWidth: '1200px' }}>
+                    <thead>
+                      <tr>
+                        <th rowSpan="2">Question</th>
+                        {setNames.map((setName, idx) => (
+                          <th key={idx} colSpan={5} className="text-center">{setName}</th>
+                        ))}
+                      </tr>
+                      <tr>
+                        {setNames.flatMap(() =>
+                          [5, 4, 3, 2, 1].map(score => (
+                            <th key={score} className="text-center">{score}</th>
+                          ))
+                        )}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {Object.entries(questions).map(([qKey, question], qIdx) => (
+                        <tr key={qKey}>
+                          <td className="question-cell">
+                            {qIdx + 1}. {question} <span className='text-danger'>*</span>
+                          </td>
+                          {setNames.flatMap((setName, setIdx) =>
+                            [5, 4, 3, 2, 1].map(score => {
+                              const fieldId = `${qKey}-${setName}-score${score}`;
+                              return (
+                                <td key={fieldId} className="text-center">
+                                  <Form.Check
+                                    type="radio"
+                                    name={`${qKey}-${setName}`}
+                                    value={score}
+                                    checked={responses[qKey]?.[setName] === String(score)}
+                                    onChange={e => handleResponseChange(qKey, setIdx, e.target.value)}
+                                    id={fieldId}
+                                  />
+                                </td>
+                              );
+                            })
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                </div>
+
+                <Form.Group className="mb-4">
+                  <Form.Label>
+                    <strong>
+                      10. What specific areas of improvement or modifications would you recommend for revising the syllabi?
+                      <span className='text-danger'> *</span>
+                    </strong>
+                  </Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={4}
+                    className="syllabi-form-textarea"
+                    value={recommendations}
+                    onChange={e => setRecommendations(e.target.value)}
+                    placeholder="Your suggestions here..."
+                    required
+                  />
+                </Form.Group>
+
+                {error_msg && <Alert variant="danger" className="syllabi-form-error">{error_msg}</Alert>}
+
+                <div style={{ textAlign: 'center' }}>
+                  <Button
+                    type="submit"
+                    className="syllabi-form-submit-btn"
+                  >
+                    Submit Feedback
+                  </Button>
+                </div>
+              </form>
+            </>
+          ) : (
+            <div className="syllabi-thanks-card">
+              <h4>Thank you for your feedback!</h4>
+              <p>We appreciate your valuable input towards improving our syllabi.</p>
+              <Button variant="success" onClick={() => window.location.reload()}>Submit Another Response</Button>
             </div>
-
-            <hr />
-
-            <Form.Group className="mb-4">
-              <Form.Label>
-                <strong>10. What specific areas of improvement or modifications would you recommend for revising the syllabi?<span className='text-danger'> *</span></strong>
-              </Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={4}
-                value={recommendations}
-                onChange={e => setRecommendations(e.target.value)}
-                placeholder="Your suggestions here..."
-                required
-              />
-            </Form.Group>
-
-            {error_msg && (
-              <Alert variant="danger" className="mt-3">{error_msg}</Alert>
-            )}
-
-            <div style={{ textAlign: 'center' }}>
-              <Button variant="primary" onClick={formSubmit}>Submit Feedback</Button>
-            </div>
-          </Card>
-        ) : (
-          <Card className="text-center p-5" style={{ position: 'relative', zIndex: 2 }}>
-            <h4>Thank you for your feedback!</h4>
-            <p>We appreciate your valuable input towards improving our syllabi.</p>
-            <Button variant="success" onClick={() => window.location.reload()}>Submit Another Response</Button>
-          </Card>
-        )}
-      </Container>
-    </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 
