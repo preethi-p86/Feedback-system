@@ -74,7 +74,7 @@ const LoginPage = () => {
           <input
             type="text"
             name="username"
-            placeholder="Email"
+            placeholder="Roll No"
             value={formData.username}
             onChange={handleChange}
             style={styles.input}

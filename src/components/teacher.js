@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Card, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import bgImage from '../assets/only-logo.webp';
+import './TeacherSelection.css'; // Import your CSS file
 
 const teachers = [
   "Dr. Sharmila", "Dr. Kalai", "Mrs. Alagu P",
@@ -15,7 +16,6 @@ const departments = [
   "M.Sc. Decision and Computing Science", "M.Sc. AIML"
 ];
 
-// Define subject sets for base types
 const subjectSets = {
   'M.Sc. Data Science': {
     odd: [
@@ -68,7 +68,6 @@ const TeacherSelection = () => {
   const [semester, setSemester] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [selections, setSelections] = useState({});
-  
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -136,26 +135,20 @@ const TeacherSelection = () => {
   };
 
   return (
-    <div style={{
-    background: department && semester
-      ? `url(${bgImage})`
-      : '',
-    backgroundRepeat: department && semester ? 'no-repeat' : undefined,
-    backgroundSize: department && semester ? '30%' : undefined,
-    backgroundPosition: department && semester ? 'center' : undefined,
-    backgroundAttachment: department && semester ? 'fixed' : undefined,
-    minHeight: '100vh',
-    paddingTop: '2rem',
-    paddingBottom: '2rem',
-    }}>
+    <div className="teacher-selection-page">
       <Container>
-        <Card className="p-4" style={{ backgroundColor: 'rgb(255, 255, 255, 0.90)' }}>
-          <Card.Title className="mb-4">Choose your teacher for your respective subjects</Card.Title>
-          
+        <Card className="teacher-selection-card">
+          <div className="logo-container" style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <img src={bgImage} alt="Logo" className="logo" style={{ width: '120px', opacity: 0.8 }} />
+          </div>
+
+          <Card.Title className="card-title">
+            Choose your teacher for your respective subjects
+          </Card.Title>
+
           <Form onSubmit={handleSubmit}>
-            {/* Department & Semester */}
-            <Card className="mb-4 p-3" style={{ backgroundColor: '#f8f9fa' }}>
-              <Card.Title className="mb-3" style={{ fontSize: '1.2rem' }}>Student Information</Card.Title>
+            <Card className="info-section">
+              <Card.Title>Student Information</Card.Title>
 
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={4}><strong>Department<span className='text-danger'> *</span></strong></Form.Label>
@@ -203,11 +196,12 @@ const TeacherSelection = () => {
 
             <hr />
 
-
             {error && <Alert variant="danger">{error}</Alert>}
 
             <div style={{ textAlign: 'center' }}>
-              <Button type="submit" variant="primary">Proceed to Feedback</Button>
+              <Button type="submit" className="proceed-button">
+                Proceed to Feedback
+              </Button>
             </div>
           </Form>
         </Card>

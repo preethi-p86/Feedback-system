@@ -57,25 +57,27 @@ const styles = {
     height: "100%",
     top: 0,
     left: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 0,
   },
   card: {
-    background: "linear-gradient(135deg, #ffffff, #e0f7fa)",
+    background: "linear-gradient(135deg, #ffffff, #f5f7fa)",
     padding: '40px 60px',
     borderRadius: '16px',
-    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)',
+    boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
     textAlign: 'center',
     zIndex: 1,
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    backdropFilter: 'blur(6px)',
   },
   title: {
     marginBottom: '30px',
-    fontSize: '28px',
-    fontWeight: '600',
+    fontSize: '30px',
+    fontWeight: '700',
+    color: '#3F51B5', // Indigo
   },
   buttonContainer: {
     display: 'flex',
@@ -90,10 +92,13 @@ const styles = {
     borderRadius: '8px',
     border: 'none',
     cursor: 'pointer',
-    backgroundColor: '#007bff',
-    color: '#fff',
+    backgroundColor: '#3F51B5',     // Indigo
+    color: '#ffffff',
+    fontWeight: '600',
     transition: 'all 0.3s ease',
+    boxShadow: '0 4px 12px rgba(63, 81, 181, 0.3)',
   },
 };
+
 
 export default SelectForm;
