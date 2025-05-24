@@ -1,0 +1,144 @@
+/* CSS variables for themes */
+.light-theme {
+  --bg-color: #f5f7fa;
+  --card-bg: #ffffff;
+  --text-color: #1e1e2f;
+  --heading-color: #1e1e2f;
+  --info-bg: #f9fafc;
+  --info-border: #dee2e6;
+  --input-bg: #ffffff;
+  --input-border: #ced4da;
+  --input-color: #495057;
+  --button-bg: #0d6efd;
+  --button-hover-bg: #0b5ed7;
+  --danger-color: #dc3545;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme {
+  --bg-color: #121212;
+  --card-bg: #1e1e2f;
+  --text-color: #e5e7eb;
+  --heading-color: #e5e7eb;
+  --info-bg: #2c2f48;
+  --info-border: #4b5563;
+  --input-bg: #2f324d;
+  --input-border: #4b5563;
+  --input-color: #e5e7eb;
+  --button-bg: #6366f1;
+  --button-hover-bg: #4f46e5;
+  --danger-color: #f87171;
+  --shadow-color: rgba(0, 0, 0, 0.6);
+}
+
+/* General page styles */
+.teacher-selection-page {
+  background-color: var(--bg-color);
+  background-size: cover;
+  background-position: center;
+  padding: 40px 20px;
+  min-height: 100vh;
+  color: var(--text-color);
+}
+
+/* Card */
+.teacher-selection-card {
+  max-width: 850px;
+  margin: auto;
+  padding: 35px 30px;
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px var(--shadow-color);
+  border: none;
+  color: var(--text-color);
+}
+
+.teacher-selection-card .card-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--heading-color);
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+/* Info Section */
+.info-section {
+  background-color: var(--info-bg);
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 1px solid var(--info-border);
+}
+
+.info-section .card-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--heading-color);
+  margin-bottom: 20px;
+}
+
+/* Labels */
+.form-label {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* Select inputs */
+.form-select {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--input-color);
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-select:focus {
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25); /* Matches button color */
+  outline: none;
+}
+
+/* Danger (error) text */
+.text-danger {
+  font-weight: 600;
+  color: var(--danger-color);
+}
+
+/* Button */
+.proceed-button {
+  background-color: var(--button-bg);
+  border-color: var(--button-bg);
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px 30px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.proceed-button:hover {
+  background-color: var(--button-hover-bg);
+  border-color: var(--button-hover-bg);
+}
+
+/* Alert */
+.alert-danger {
+  margin-top: 20px;
+  font-weight: 500;
+  color: var(--danger-color);
+  background-color: rgba(248, 215, 218, 0.8);
+  border-color: rgba(248, 215, 218, 1);
+}
+
+/* Logo container (if used) */
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 120px;        
+  height: auto;
+  opacity: 0.8;        
+}
