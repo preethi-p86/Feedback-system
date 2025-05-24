@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Container, Form, Table, Button, Alert } from 'react-bootstrap';
+import {Form, Table, Button, Alert } from 'react-bootstrap';
 import './SyllabiForm.css'; 
 
 function SyllabiForm() {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Card, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import bgImage from '../assets/only-logo.webp';
-import './TeacherSelection.css'; // Make sure this contains the CSS below
+import './TeacherSelection.css'; // Import your CSS file
 
 const teachers = [
   "Dr. Sharmila", "Dr. Kalai", "Mrs. Alagu P",
@@ -64,24 +64,12 @@ const subjectSets = {
 };
 
 const TeacherSelection = () => {
-  const [theme, setTheme] = useState('light');
   const [department, setDepartment] = useState('');
   const [semester, setSemester] = useState('');
   const [subjects, setSubjects] = useState([]);
   const [selections, setSelections] = useState({});
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-  };
 
   const handleChange = (code, value) => {
     setSelections(prev => ({ ...prev, [code]: value }));
@@ -147,33 +135,17 @@ const TeacherSelection = () => {
   };
 
   return (
-    <div
-      className={`${theme}-theme teacher-selection-page`}
-      style={{
-        backgroundImage: department && semester ? `url(${bgImage})` : undefined
-      }}
-    >
+    <div className="teacher-selection-page">
       <Container>
-        <div style={{ textAlign: 'right', marginBottom: 10 }}>
-          <button
-            onClick={toggleTheme}
-            style={{
-              backgroundColor: 'transparent',
-              border: '1px solid currentColor',
-              borderRadius: '6px',
-              padding: '6px 12px',
-              cursor: 'pointer',
-              color: 'inherit',
-              fontWeight: '600'
-            }}
-          >
-            Switch to {theme === 'light' ? 'Dark' : 'Light'} Theme
-          </button>
-        </div>
-
         <Card className="teacher-selection-card">
-          <Card.Title className="card-title">Choose your teacher for your respective subjects</Card.Title>
-          
+          <div className="logo-container" style={{ textAlign: 'center', marginBottom: '20px' }}>
+            <img src={bgImage} alt="Logo" className="logo" style={{ width: '120px', opacity: 0.8 }} />
+          </div>
+
+          <Card.Title className="card-title">
+            Choose your teacher for your respective subjects
+          </Card.Title>
+
           <Form onSubmit={handleSubmit}>
             <Card className="info-section">
               <Card.Title>Student Information</Card.Title>

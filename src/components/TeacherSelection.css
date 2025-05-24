@@ -1,114 +1,84 @@
-/* CSS variables for themes */
-.light-theme {
-  --bg-color: #f5f7fa;
-  --card-bg: #ffffff;
-  --text-color: #1e1e2f;
-  --heading-color: #1e1e2f;
-  --info-bg: #f9fafc;
-  --info-border: #dee2e6;
-  --input-bg: #ffffff;
-  --input-border: #ced4da;
-  --input-color: #495057;
-  --button-bg: #0d6efd;
-  --button-hover-bg: #0b5ed7;
-  --danger-color: #dc3545;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-}
-
-.dark-theme {
-  --bg-color: #121212;
-  --card-bg: #1e1e2f;
-  --text-color: #e5e7eb;
-  --heading-color: #e5e7eb;
-  --info-bg: #2c2f48;
-  --info-border: #4b5563;
-  --input-bg: #2f324d;
-  --input-border: #4b5563;
-  --input-color: #e5e7eb;
-  --button-bg: #6366f1;
-  --button-hover-bg: #4f46e5;
-  --danger-color: #f87171;
-  --shadow-color: rgba(0, 0, 0, 0.6);
-}
-
-/* General page styles */
 .teacher-selection-page {
-  background-color: var(--bg-color);
+  background-color: #121212;
   background-size: cover;
   background-position: center;
   padding: 40px 20px;
   min-height: 100vh;
-  color: var(--text-color);
+  color: #e5e7eb;
 }
 
-/* Card */
 .teacher-selection-card {
   max-width: 850px;
   margin: auto;
   padding: 35px 30px;
-  background-color: var(--card-bg);
+  background-color: #1e1e2f;
   border-radius: 16px;
-  box-shadow: 0 8px 24px var(--shadow-color);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   border: none;
-  color: var(--text-color);
 }
 
 .teacher-selection-card .card-title {
   font-size: 26px;
   font-weight: 600;
-  color: var(--heading-color);
+  color: #ffffff;
   text-align: center;
   margin-bottom: 30px;
 }
 
-/* Info Section */
 .info-section {
-  background-color: var(--info-bg);
+  background-color: #2c2f4a;
   padding: 25px;
   border-radius: 12px;
   margin-bottom: 30px;
-  border: 1px solid var(--info-border);
+  border: 1px solid #3a3a5a;
 }
 
 .info-section .card-title {
   font-size: 20px;
   font-weight: 500;
-  color: var(--heading-color);
+  color: #f0f0f0;
   margin-bottom: 20px;
 }
 
-/* Labels */
 .form-label {
-  color: var(--text-color);
+  color: #e5e7eb;
   font-weight: 500;
 }
 
-/* Select inputs */
 .form-select {
-  background-color: var(--input-bg);
-  border: 1px solid var(--input-border);
-  color: var(--input-color);
+  background-color: #2f324d;
+  border: 1px solid #4b5563;
+  color: #f3f4f6;
   border-radius: 6px;
   padding: 8px 12px;
+  font-weight: 500;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='24' height='24' fill='none' stroke='%23a5b4fc' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.2em;
 }
 
 .form-select:focus {
-  border-color: var(--button-bg);
-  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25); /* Matches button color */
+  border-color: #6366f1;
+  box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
   outline: none;
 }
 
-/* Danger (error) text */
-.text-danger {
-  font-weight: 600;
-  color: var(--danger-color);
+.form-select option {
+  background-color: #2f324d;
+  color: #f3f4f6;
 }
 
-/* Button */
+.text-danger {
+  color: #f87171;
+  font-weight: 600;
+}
+
 .proceed-button {
-  background-color: var(--button-bg);
-  border-color: var(--button-bg);
+  background-color: #6366f1;
+  border-color: #6366f1;
   color: white;
   font-weight: 500;
   font-size: 16px;
@@ -118,27 +88,31 @@
 }
 
 .proceed-button:hover {
-  background-color: var(--button-hover-bg);
-  border-color: var(--button-hover-bg);
+  background-color: #4f46e5;
+  border-color: #4f46e5;
 }
 
-/* Alert */
 .alert-danger {
   margin-top: 20px;
   font-weight: 500;
-  color: var(--danger-color);
-  background-color: rgba(248, 215, 218, 0.8);
-  border-color: rgba(248, 215, 218, 1);
+  color: #f87171;
+  background-color: #3f1f1f;
+  border: 1px solid #dc2626;
+  padding: 12px;
+  border-radius: 8px;
 }
 
-/* Logo container (if used) */
 .logo-container {
   text-align: center;
   margin-bottom: 20px;
+
+  /* Ensure it participates in normal flow */
+  position: relative;  
+  z-index: 10;          /* higher than card if needed */
 }
 
-.logo {
-  width: 120px;        
-  height: auto;
-  opacity: 0.8;        
+.teacher-selection-card {
+  position: relative;   /* create stacking context */
+  z-index: 1;           /* lower than logo container */
 }
+
