@@ -45,7 +45,7 @@ const FacilitiesFeedback = () => {
   const [formData, setFormData] = useState({
     year: '',
     responses: Array(questions.length).fill(null),
-    suggestion: ''
+    suggestions: ''
   });
 
   const handleInputChange = (index, value) => {
@@ -56,7 +56,16 @@ const FacilitiesFeedback = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // handle form submission here
+
+    const allAnswered = formData.responses.every(response => response !== null);
+
+    if (!formData.year || !formData.suggestions || !allAnswered) {
+      alert("Please fill in all required fields including year, suggestions, and all feedback questions.");
+      return;
+    }
+
+    console.log(formData);
+    // Proceed with submission
   };
 
   return (
@@ -64,23 +73,22 @@ const FacilitiesFeedback = () => {
       <h2 style={styles.header}>Facilities Feedback Form</h2>
 
       <div style={styles.rowContainer}>
-
-      <label style={{ ...styles.label, ...styles.halfWidth }}>
-        Year of Study <span className="text-danger">*</span>
-        <input
-          type="text"
-          required
-          value={formData.year}
-          onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-          style={styles.input}
-        />
-      </label>
+        <label style={{ ...styles.label, ...styles.halfWidth }}>
+          Year of Study <span className="text-danger">*</span>
+          <input
+            type="text"
+            required
+            value={formData.year}
+            onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+            style={styles.input}
+          />
+        </label>
       </div>
 
       {questions.map((question, index) => (
         <div key={index} style={styles.questionBlock}>
           <p style={styles.question}>
-            {question} <span className='text-danger'>*</span>
+            {question} <span className="text-danger">*</span>
           </p>
           <div style={styles.radioGroup}>
             {[5, 4, 3, 2, 1].map((value) => (
@@ -91,7 +99,6 @@ const FacilitiesFeedback = () => {
                   value={value}
                   checked={formData.responses[index] === value}
                   onChange={() => handleInputChange(index, value)}
-                  required
                   style={styles.radio}
                 />
                 {value}
@@ -103,44 +110,23 @@ const FacilitiesFeedback = () => {
 
       <div style={{ marginTop: '20px' }}>
         <label htmlFor="suggestions" style={{ fontWeight: 'bold', color: '#003366' }}>
-          Additional Suggestions <span className='text-danger'>*</span>
+          Additional Suggestions <span className="text-danger">*</span>
         </label>
         <br />
         <textarea
           id="suggestions"
-          style={{
-            width: '100%',
-            height: '100px',
-            borderRadius: '10px',
-            padding: '10px',
-            fontSize: '16px',
-            marginTop: '5px'
-          }}
+          style={styles.textarea}
           required
           value={formData.suggestions}
           onChange={(e) => setFormData({ ...formData, suggestions: e.target.value })}
         />
 
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <button
-            type="submit"
-            style={{
-              backgroundColor: '#007bff',
-              color: 'white',
-              padding: '10px 20px',
-              fontSize: '16px',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer'
-            }}
-          >
+          <button type="submit" style={styles.button}>
             Submit
           </button>
         </div>
-
       </div>
-
-
     </form>
   );
 };
@@ -149,7 +135,7 @@ const styles = {
   rowContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    gap:'20px',
+    gap: '20px',
     marginBottom: '20px'
   },
 
@@ -165,19 +151,23 @@ const styles = {
     borderRadius: '10px',
     fontFamily: 'sans-serif',
   },
+
   header: {
     textAlign: 'center',
     marginBottom: '20px'
   },
+
   label: {
     display: 'block',
     marginBottom: '15px'
   },
+
   input: {
     width: '100%',
     padding: '8px',
     marginTop: '5px'
   },
+
   textarea: {
     width: '100%',
     height: '100px',
@@ -188,10 +178,6 @@ const styles = {
     border: '1px solid #ccc',
     fontSize: '16px'
   },
-  buttonContainer: {
-    marginTop: '20px',
-    textAlign: 'center'
-  },
 
   questionBlock: {
     marginBottom: '20px',
@@ -199,24 +185,29 @@ const styles = {
     padding: '10px 15px',
     borderRadius: '6px'
   },
+
   question: {
     marginBottom: '8px'
   },
+
   radioGroup: {
     display: 'flex',
     gap: '10px'
   },
+
   radioLabel: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     fontSize: '14px'
   },
+
   radio: {
     marginBottom: '4px',
     width: '18px',
     height: '18px'
   },
+
   button: {
     display: 'block',
     margin: '30px auto 0',
