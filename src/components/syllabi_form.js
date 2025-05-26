@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import {Form, Table, Button, Alert } from 'react-bootstrap';
-import './SyllabiForm.css'; 
+import { Form, Table, Button, Alert } from 'react-bootstrap';
+import './SyllabiForm.css';
 
 function SyllabiForm() {
   const [displayform, setDisplay] = useState(true);
@@ -37,18 +37,20 @@ function SyllabiForm() {
   };
 
   const validateForm = () => {
-    if (Object.keys(responses).length < Object.keys(questions).length) return false;
-    for (const q of Object.keys(questions)) {
-      if (!responses[q] || Object.keys(responses[q]).length < setNames.length) {
-        return false;
-      }
-    }
-    if (!recommendations.trim()) return false;
-    return true;
+    const allQuestionsAnswered = Object.keys(questions).every(qKey => {
+      const subjectRatings = responses[qKey];
+      if (!subjectRatings) return false;
+      return setNames.every(setName => subjectRatings[setName]);
+    });
+
+    const recommendationFilled = recommendations.trim().length > 0;
+
+    return allQuestionsAnswered && recommendationFilled;
   };
 
   const formSubmit = (e) => {
     e.preventDefault();
+
     if (validateForm()) {
       let existingEntries = JSON.parse(localStorage.getItem("syllabusFeedback")) || [];
       const newEntry = {
@@ -61,7 +63,7 @@ function SyllabiForm() {
       setDisplay(false);
       setErrorMsg('');
     } else {
-      setErrorMsg('Please fill all required fields before submitting.');
+      setErrorMsg('Please fill in all fields for every subject and provide your suggestions.');
     }
   };
 
@@ -128,6 +130,7 @@ function SyllabiForm() {
                                     checked={responses[qKey]?.[setName] === String(score)}
                                     onChange={e => handleResponseChange(qKey, setIdx, e.target.value)}
                                     id={fieldId}
+                                    required
                                   />
                                 </td>
                               );
