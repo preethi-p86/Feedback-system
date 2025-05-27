@@ -1,6 +1,6 @@
+// src/pages/SelectForm.js
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import bgImage from "../assets/login-bg.jpg";
 
 const SelectForm = () => {
@@ -21,6 +21,11 @@ const SelectForm = () => {
     navigate('/facilities-feedback');
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('loggedInUserId');
+    navigate('/login');
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.overlay}></div>
@@ -34,6 +39,21 @@ const SelectForm = () => {
             Students Feedback on Facilities
           </button>
         </div>
+        <button
+          onClick={handleLogout}
+          style={{
+            marginTop: '30px',
+            backgroundColor: '#E53935',
+            color: '#fff',
+            border: 'none',
+            padding: '10px 20px',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(229, 57, 53, 0.3)',
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
@@ -77,7 +97,7 @@ const styles = {
     marginBottom: '30px',
     fontSize: '30px',
     fontWeight: '700',
-    color: '#3F51B5', // Indigo
+    color: '#3F51B5',
   },
   buttonContainer: {
     display: 'flex',
@@ -92,13 +112,12 @@ const styles = {
     borderRadius: '8px',
     border: 'none',
     cursor: 'pointer',
-    backgroundColor: '#3F51B5',     // Indigo
+    backgroundColor: '#3F51B5',
     color: '#ffffff',
     fontWeight: '600',
     transition: 'all 0.3s ease',
     boxShadow: '0 4px 12px rgba(63, 81, 181, 0.3)',
   },
 };
-
 
 export default SelectForm;

@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "r
 import StickyHeader from './components/header'; 
 import LoginPage from './components/LoginPage';
 import TeacherSelection from './components/teacher';
-import SelectForm from './components/select_form'
+import SelectForm from './components/select_form';
 import SyllabiForm from './components/syllabi_form';
 import ForgotPassword from './components/ForgotPassword';
 import FacilitiesFeedback from "./components/facilities_form";
