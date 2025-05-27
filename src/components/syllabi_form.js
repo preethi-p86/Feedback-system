@@ -37,20 +37,18 @@ function SyllabiForm() {
   };
 
   const validateForm = () => {
-    const allQuestionsAnswered = Object.keys(questions).every(qKey => {
-      const subjectRatings = responses[qKey];
-      if (!subjectRatings) return false;
-      return setNames.every(setName => subjectRatings[setName]);
-    });
-
-    const recommendationFilled = recommendations.trim().length > 0;
-
-    return allQuestionsAnswered && recommendationFilled;
+    if (Object.keys(responses).length < Object.keys(questions).length) return false;
+    for (const q of Object.keys(questions)) {
+      if (!responses[q] || Object.keys(responses[q]).length < setNames.length) {
+        return false;
+      }
+    }
+    if (!recommendations.trim()) return false;
+    return true;
   };
 
   const formSubmit = (e) => {
     e.preventDefault();
-
     if (validateForm()) {
       let existingEntries = JSON.parse(localStorage.getItem("syllabusFeedback")) || [];
       const newEntry = {
@@ -63,7 +61,7 @@ function SyllabiForm() {
       setDisplay(false);
       setErrorMsg('');
     } else {
-      setErrorMsg('Please fill in all fields for every subject and provide your suggestions.');
+      setErrorMsg('Please fill all required fields before submitting.');
     }
   };
 
@@ -85,7 +83,6 @@ function SyllabiForm() {
           className="theme-toggle-btn"
           checked={darkMode}
           onChange={e => setDarkMode(e.target.checked)}
-          aria-label="Toggle dark mode"
         />
       </div>
 
@@ -96,10 +93,10 @@ function SyllabiForm() {
               <h2 className="card-title">Syllabus Feedback Form</h2>
               <form onSubmit={formSubmit}>
                 <div className="table-wrapper">
-                  <Table bordered className="syllabi-form-table" style={{ minWidth: '1200px' }}>
+                  <Table bordered className="syllabi-form-table" responsive style={{ minWidth: '1600px' }}>
                     <thead>
                       <tr>
-                        <th rowSpan="2">Question</th>
+                        <th rowSpan="2" style={{ minWidth: '300px', position: 'sticky', left: 0, backgroundColor: 'var(--table-header-bg)', zIndex: 2 }}>Question</th>
                         {setNames.map((setName, idx) => (
                           <th key={idx} colSpan={5} className="text-center">{setName}</th>
                         ))}
@@ -115,7 +112,7 @@ function SyllabiForm() {
                     <tbody>
                       {Object.entries(questions).map(([qKey, question], qIdx) => (
                         <tr key={qKey}>
-                          <td className="question-cell">
+                          <td className="question-cell" style={{ position: 'sticky', left: 0, backgroundColor: 'var(--card-bg)', zIndex: 1 }}>
                             {qIdx + 1}. {question} <span className='text-danger'>*</span>
                           </td>
                           {setNames.flatMap((setName, setIdx) =>
@@ -143,32 +140,26 @@ function SyllabiForm() {
                 </div>
 
                 <Form.Group className="mb-4">
-                  <Form.Label>
-                    <strong>
-                      10. What specific areas of improvement or modifications would you recommend for revising the syllabi?
-                      <span className='text-danger'> *</span>
-                    </strong>
-                  </Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={4}
-                    className="syllabi-form-textarea"
-                    value={recommendations}
-                    onChange={e => setRecommendations(e.target.value)}
-                    placeholder="Your suggestions here..."
-                    required
-                  />
-                </Form.Group>
+  <Form.Label className="tenth-question">
+    10. What specific areas of improvement or modifications would you recommend for revising the syllabi?
+    <span className='text-danger'> *</span>
+  </Form.Label>
+  <Form.Control
+    as="textarea"
+    rows={4}
+    className="syllabi-form-textarea"
+    value={recommendations}
+    onChange={e => setRecommendations(e.target.value)}
+    placeholder="Your suggestions here..."
+    required
+  />
+</Form.Group>
+
 
                 {error_msg && <Alert variant="danger" className="syllabi-form-error">{error_msg}</Alert>}
 
                 <div style={{ textAlign: 'center' }}>
-                  <Button
-                    type="submit"
-                    className="syllabi-form-submit-btn"
-                  >
-                    Submit Feedback
-                  </Button>
+                  <Button type="submit" className="syllabi-form-submit-btn">Submit Feedback</Button>
                 </div>
               </form>
             </>
